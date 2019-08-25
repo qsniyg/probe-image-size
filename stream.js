@@ -29,12 +29,17 @@ module.exports = function probeStream(stream) {
       if (!cnt) reject(new ProbeError('unrecognized file format', 'ECONTENT'));
     }
 
+    function resolve1(data) {
+      data.headers = stream.headers;
+      resolve(data);
+    }
+
     Object.keys(parsers).forEach(function (type) {
       var pStream = parsers[type]();
 
       cnt++;
 
-      pStream.once('data', resolve);
+      pStream.once('data', resolve1);
       pStream.once('end', parserEnd);
       // silently ignore errors because user does not need to know
       // that something wrong is happening here
