@@ -30,7 +30,7 @@ module.exports = function probeStream(stream) {
     }
 
     function resolve1(data) {
-      data.headers = stream.headers;
+      data.headers = stream.response.headers;
       resolve(data);
     }
 
